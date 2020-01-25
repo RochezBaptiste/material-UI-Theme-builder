@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "target": "esnext",
+    "jsx": "react",
+    "lib": ["dom", "esnext"],
+    "types" : ["node"],
+    "moduleResolution": "node",
+    "baseUrl" : "./",
+    "paths": {
+      "*" : ["./node_modules/@types/*", "*"]
+    }
+  },
+  "filesGlob": [
+    "!./node_modules/**",
+    "./src/*.ts",
+    "./src/*.tsx"
+  ]
+}
