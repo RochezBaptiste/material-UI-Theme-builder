@@ -1,4 +1,4 @@
-#Documentation
+# Documentation
 React typescript boilerplate for personal project
 
 ## Overview
