@@ -69,7 +69,9 @@ module.exports = {
         "id-length": 0,
         "dot-location": ["error", "property"],
         "no-undefined": 0,
-        "no-underscore-dangle": 0
+        "no-underscore-dangle": 0,
+        "prefer-named-capture-group": 0,
+        "require-unicode-regexp": 0
     },
     "ignorePatterns": ["babel.config.js", "node_modules/", "src/style/", "src/typing/"],
 };

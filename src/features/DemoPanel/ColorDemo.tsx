@@ -29,7 +29,7 @@ const useStyle = makeStyles((theme: Theme) => ({
             margin: theme.spacing(0, 1),
             textTransform: "capitalize"
         },
-        textAlign: "center",
+        textAlign: "center"
     },
     textField: {
         "& > * ": {
@@ -51,7 +51,7 @@ export const ColorDemo = () => {
 
     return (
         <div>
-            <Card elevation={1}>
+            <Card elevation={0}>
                 <CardContent>
                     <div className={classes.profile}>
                         <Avatar

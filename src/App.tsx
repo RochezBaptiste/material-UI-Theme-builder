@@ -1,13 +1,12 @@
-import { ColorOptionList } from "./features/Palette/ColorOptionList";
-import { colors } from "./data/colors";
+import { BuildPanel } from "./features/BuildPanel/BuildPanel";
 import { DemoPanel } from "./features/DemoPanel/DemoPanel";
 import { EStep } from "./constant";
 import { mainTheme } from "./style/theme";
 import { Stepper } from "./features/Stepper/Stepper";
 import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme";
 import { UserThemeContext } from "./context/themeContext";
+import { Box, Grid, Typography } from "@material-ui/core";
 import { createMuiTheme, makeStyles, responsiveFontSizes, Theme, ThemeProvider } from "@material-ui/core/styles";
-import { Grid, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import "./style/index.scss";
 
@@ -17,10 +16,15 @@ export const useStyle = makeStyles((theme: Theme) => ({
         minHeight: "100vh"
     },
     leftPanel: {
+        alignItems: "center",
         color: theme.palette.common.white,
         display: "flex",
-        flexDirection: "column",
-        padding: theme.spacing(19)
+        flexDirection: "column"
+    },
+    leftPanelContent: {
+        minHeight: 576,
+        minWidth: 536,
+        padding: theme.spacing(15, 19, 10, 19)
     },
     rightPanel: {
         backgroundColor: theme.palette.common.white,
@@ -42,11 +46,15 @@ const App = () => {
                 <div className={classes.content}>
                     <Grid container>
                         <Grid item md={6} className={classes.leftPanel}>
-                            <Typography variant="h2">Hi</Typography>
-                            <Typography variant="body1" color="textSecondary">
-                            Start to create your own theme
-                            </Typography>
-                            <ColorOptionList list={colors} />
+                            <div className={classes.leftPanelContent}>
+                                <Box mb={8}>
+                                    <Typography variant="h2">Hi</Typography>
+                                    <Typography variant="body1" color="textSecondary">
+                                        Start to create your own theme
+                                    </Typography>
+                                </Box>
+                                <BuildPanel activeStep={activeStep}/>
+                            </div>
                             <Stepper activeStep={activeStep} setActiveStep={setActiveStep}/>
                         </Grid>
                         <Grid item md={6} className={classes.rightPanel}>

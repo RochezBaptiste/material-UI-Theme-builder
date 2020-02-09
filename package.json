@@ -5,7 +5,8 @@
   "scripts": {
     "build:dev": "webpack --env.environment=development --config webpack.config.js",
     "build": "webpack --env.environment=production --config webpack.config.js",
-    "start": "webpack-dev-server --env.environment=development --config webpack.config.js"
+    "start": "webpack-dev-server --env.environment=development --config webpack.config.js",
+    "eslint": "eslint --ext .ts,.tsx src/"
   },
   "dependencies": {
     "@material-ui/core": "^4.8.1",
@@ -18,7 +19,7 @@
     "node-sass": "^4.13.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-hook-form": "^4.4.6",
+    "react-hook-form": "^4.9.2",
     "react-scripts": "3.3.0",
     "typescript": "~3.7.2",
     "url-search-params-polyfill": "^7.0.1"

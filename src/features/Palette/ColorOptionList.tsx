@@ -1,7 +1,8 @@
 import { ColorOption } from "./ColorOption";
 import { ColorType } from "../../data/colors";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import React from "react";
+import { Typography } from "@material-ui/core";
+import React, { Fragment } from "react";
 
 interface IParams {
     list: ColorType[];
@@ -20,10 +21,14 @@ export const ColorOptionList = (props: IParams) => {
     const classes = useStyle();
 
     return (
-        <div className={classes.root}>
-            {
-                list.map((label: ColorType) => <ColorOption key={label} title={label}/>)
-            }
-        </div>
+        <Fragment>
+            <Typography variant="h4">Palette</Typography>
+            <div className={classes.root}>
+                {
+                    list.map((label: ColorType) => <ColorOption key={label} title={label}/>)
+                }
+            </div>
+        </Fragment>
+
     );
 };

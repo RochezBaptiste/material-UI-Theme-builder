@@ -1,5 +1,6 @@
 import { ColorDemo } from "./ColorDemo";
 import { EStep } from "../../constant";
+import { Fade } from "@material-ui/core";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import React from "react";
 
@@ -18,11 +19,14 @@ const useStyle = makeStyles({
 export const DemoPanel = (props: IParams) => {
     const classes = useStyle();
     const { activeStep } = props;
+
     return (
         <div className={classes.root}>
-            {
-                activeStep === EStep.COLOR && <ColorDemo />
-            }
+            <Fade in={activeStep === EStep.COLOR} unmountOnExit mountOnEnter>
+                <div>
+                    <ColorDemo />
+                </div>
+            </Fade>
         </div>
     );
 };

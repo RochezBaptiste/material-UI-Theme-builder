@@ -2,15 +2,28 @@ import { Close } from "@material-ui/icons";
 import { ColorBlock } from "../../common/ColorBlock/ColorBlock";
 import { ColorType } from "../../data/colors";
 import { MUICOLORS } from "../../constant";
-import { PaletteOptions } from "@material-ui/core/styles/createPalette";
-import { UserThemeContext } from "../../context/themeContext";
-import { Color, Drawer, Fab, Icon, Typography } from "@material-ui/core";
+import React from "react";
+import { useColorOption } from "./useColorOption";
+import { useForm } from "react-hook-form";
+import { Button, Drawer, Fab, Grow, Icon, TextField, Typography } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import React, { useContext, useState } from "react";
 
 const size = 100;
 
 const useStyle = makeStyles((theme: Theme) => ({
+    customColorForm: {
+        "& > *": {
+            margin: theme.spacing(0, 1)
+        },
+        alignItems: "center",
+        display: "flex",
+        margin: "0 auto"
+    },
+    drawer: {
+        "& .MuiPaper-root": {
+            padding: theme.spacing(4)
+        }
+    },
     emptyIcon: {
         color: theme.palette.common.white,
         fontSize: "1.7rem"
@@ -19,8 +32,7 @@ const useStyle = makeStyles((theme: Theme) => ({
         display: "flex",
         flexWrap: "wrap",
         justifyContent: "space-between",
-        marginTop: theme.spacing(1),
-        padding: 30
+        marginTop: theme.spacing(4)
     },
     resetButton: {
         height: 36,
@@ -35,14 +47,15 @@ const useStyle = makeStyles((theme: Theme) => ({
         textAlign: "center",
         width: size
     },
-    square: (props: {backgroundColor: Color}) => ({
+    square: (props: {backgroundColor: string}) => ({
         alignItems: "center",
-        backgroundColor: props.backgroundColor ? props.backgroundColor[500] : theme.palette.grey[800],
+        backgroundColor: props.backgroundColor ? props.backgroundColor : theme.palette.grey[800],
         borderRadius: 15,
         cursor: "pointer",
         display: "flex",
         height: size,
         justifyContent: "center",
+        transition: "all ease 0.6s",
         width: size
     }),
     title: {
@@ -57,50 +70,56 @@ interface IParams {
 
 export const ColorOption = (props: IParams) => {
     const { title } = props;
-    const [backgroundColor, setBackgroundColor] = useState<Color>();
-    const [isColorPanelOpen, setIsColorPanelOpen] = useState(false);
+    const { register, handleSubmit, errors, setError, setValue } = useForm<{customColor: string}>({ mode: "onSubmit" });
+    const { backgroundColor,
+        isColorPanelOpen,
+        onSubmit,
+        removeColor,
+        setIsColorPanelOpen,
+        updateColor } = useColorOption({ setError, title });
     const isEmpty = !backgroundColor;
     const classes = useStyle({ backgroundColor });
-    const theme = useContext(UserThemeContext);
-
-    const updateColor = (color: Color) => {
-        setBackgroundColor(color);
-        setIsColorPanelOpen(false);
-        const option: PaletteOptions = { [title]: color };
-        const newPalette = { ...theme.userTheme.palette, ...option };
-        theme.setUserTheme({ ...theme.userTheme, palette: newPalette });
-    };
-
-    const removeColor = () => {
-        setBackgroundColor(undefined);
-        if (theme.userTheme.palette?.[title]) {
-            const { [title]: removedColor, ...newPalette } = theme.userTheme.palette;
-            theme.setUserTheme({ ...theme.userTheme, palette: newPalette });
-        }
-    };
 
     return (
         <div className={classes.root}>
-            {
-                !isEmpty && (
-                    <Fab aria-label="reset" className={classes.resetButton} onClick={removeColor}>
-                        <Close fontSize="small"/>
-                    </Fab>
-                )
-            }
+            <Grow in={!isEmpty} unmountOnExit>
+                <Fab aria-label="reset" className={classes.resetButton} onClick={removeColor}>
+                    <Close fontSize="small"/>
+                </Fab>
+            </Grow>
             <div className={classes.square} onClick={() => setIsColorPanelOpen(!isColorPanelOpen)}>
-                {
-                    isEmpty && (
+                <Grow in={isEmpty} unmountOnExit>
+                    <div>
                         <Icon className={classes.emptyIcon}>
                             add
                         </Icon>
-                    )
-                }
+                    </div>
+                </Grow>
             </div>
             <Typography variant="body1" className={classes.title}>
                 {title}
             </Typography>
-            <Drawer anchor="bottom" open={isColorPanelOpen} onClose={() => setIsColorPanelOpen(false)}>
+            <Drawer
+                anchor="bottom"
+                open={isColorPanelOpen}
+                onClose={() => setIsColorPanelOpen(false)}
+                className={classes.drawer}
+            >
+                <form onSubmit={handleSubmit(onSubmit)} className={classes.customColorForm}>
+                    <TextField
+                        id="custom-color"
+                        name="customColor"
+                        label="Custom color"
+                        variant="outlined"
+                        size="small"
+                        autoComplete="off"
+                        inputRef={register}
+                        error={!!errors.customColor}
+                        helperText={errors.customColor?.message}
+                        onChange={ (event) => setValue("customColor", event.target.value)}
+                    />
+                    <Button type="submit" variant="contained" color="primary">Ok</Button>
+                </form>
                 <div className={classes.palette}>
                     {
                         MUICOLORS.map((color, index) =>

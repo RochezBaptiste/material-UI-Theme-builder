@@ -25,4 +25,4 @@ export const MUICOLORS: Color[] = [
     color.orange,
     color.deepOrange,
     color.brown
-]
+];

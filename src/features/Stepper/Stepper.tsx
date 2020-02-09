@@ -3,14 +3,19 @@ import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import React from "react";
 import { Button, MobileStepper } from "@material-ui/core";
-import { makeStyles, Theme } from "@material-ui/core/styles";
+import { fade, makeStyles, Theme } from "@material-ui/core/styles";
 
 const useStyle = makeStyles((theme: Theme) => ({
     button: {
+        "&.Mui-disabled": {
+            color: fade(theme.palette.common.white, 0.2)
+        },
         color: theme.palette.common.white
     },
     root: {
-        backgroundColor: "transparent"
+        backgroundColor: "transparent",
+        margin: "auto 0",
+        width: "80%"
     }
 }));
 
