@@ -1,30 +1,62 @@
-import { CustomTheme } from "./style/theme";
-import React from "react";
-import { Typography } from "@material-ui/core";
-import { makeStyles, Theme, ThemeProvider } from "@material-ui/core/styles";
+import { ColorOptionList } from "./features/Palette/ColorOptionList";
+import { colors } from "./data/colors";
+import { DemoPanel } from "./features/DemoPanel/DemoPanel";
+import { EStep } from "./constant";
+import { mainTheme } from "./style/theme";
+import { Stepper } from "./features/Stepper/Stepper";
+import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme";
+import { UserThemeContext } from "./context/themeContext";
+import { createMuiTheme, makeStyles, responsiveFontSizes, Theme, ThemeProvider } from "@material-ui/core/styles";
+import { Grid, Typography } from "@material-ui/core";
+import React, { useState } from "react";
 import "./style/index.scss";
 
 export const useStyle = makeStyles((theme: Theme) => ({
     content: {
-        backgroundColor: theme.palette.grey["50"],
+        backgroundColor: "#262a42",
+        minHeight: "100vh"
+    },
+    leftPanel: {
+        color: theme.palette.common.white,
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
-        minHeight: `calc(100vh - ${theme.spacing(8)}px)`,
-        padding: theme.spacing(4),
-        textAlign: "center"
+        padding: theme.spacing(19)
+    },
+    rightPanel: {
+        backgroundColor: theme.palette.common.white,
+        borderBottomLeftRadius: 20,
+        borderTopLeftRadius: 20,
+        minHeight: "100vh",
+        padding: theme.spacing(5)
     }
 }));
 
 const App = () => {
     const classes = useStyle();
+    const [activeStep, setActiveStep] = useState<EStep>(EStep.COLOR);
+    const [userTheme, setUserTheme] = useState<ThemeOptions>({});
 
     return (
-        <ThemeProvider theme={CustomTheme}>
-            <div className={classes.content}>
-                <Typography variant="h2" color="primary">U47</Typography>
-                <Typography variant="h4" color="secondary">Boilerplate</Typography>
-            </div>
+        <ThemeProvider theme={mainTheme}>
+            <UserThemeContext.Provider value={{ setUserTheme, userTheme }}>
+                <div className={classes.content}>
+                    <Grid container>
+                        <Grid item md={6} className={classes.leftPanel}>
+                            <Typography variant="h2">Hi</Typography>
+                            <Typography variant="body1" color="textSecondary">
+                            Start to create your own theme
+                            </Typography>
+                            <ColorOptionList list={colors} />
+                            <Stepper activeStep={activeStep} setActiveStep={setActiveStep}/>
+                        </Grid>
+                        <Grid item md={6} className={classes.rightPanel}>
+                            <ThemeProvider theme={responsiveFontSizes(createMuiTheme(userTheme))}>
+                                <DemoPanel activeStep={activeStep} />
+                            </ThemeProvider>
+                        </Grid>
+                    </Grid>
+                </div>
+            </UserThemeContext.Provider>
         </ThemeProvider>
     );
 };
