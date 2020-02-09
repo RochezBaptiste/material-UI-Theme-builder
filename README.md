@@ -1,5 +1,5 @@
 # Documentation
-React typescript boilerplate for personal project
+Material-UI theme builder
 
 ## Overview
 ### Quickstart
@@ -12,6 +12,3 @@ Now the app is running at `localhost:8080`
 ````
 yarn run build
 ````
-
-### Testing
-There is no test library for the moment 
