@@ -21,6 +21,8 @@ const useStyle = makeStyles((theme: Theme) => ({
     },
     drawer: {
         "& .MuiPaper-root": {
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
             padding: theme.spacing(4)
         }
     },

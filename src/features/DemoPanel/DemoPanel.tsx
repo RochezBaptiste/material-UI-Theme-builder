@@ -3,6 +3,7 @@ import { EStep } from "../../constant";
 import { Fade } from "@material-ui/core";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import React from "react";
+import { TypographyDemo } from "./TypographyDemo";
 
 interface IParams {
     activeStep: EStep;
@@ -22,11 +23,22 @@ export const DemoPanel = (props: IParams) => {
 
     return (
         <div className={classes.root}>
-            <Fade in={activeStep === EStep.COLOR} unmountOnExit mountOnEnter>
-                <div>
-                    <ColorDemo />
-                </div>
-            </Fade>
+            {
+                activeStep === EStep.COLOR &&
+                <Fade in={activeStep === EStep.COLOR} timeout={{ enter: 500 }}>
+                    <div>
+                        <ColorDemo />
+                    </div>
+                </Fade>
+            }
+            {
+                activeStep === EStep.TYPOGRAPHY &&
+                <Fade in={activeStep === EStep.TYPOGRAPHY} timeout={{ enter: 500 }}>
+                    <div>
+                        <TypographyDemo />
+                    </div>
+                </Fade>
+            }
         </div>
     );
 };

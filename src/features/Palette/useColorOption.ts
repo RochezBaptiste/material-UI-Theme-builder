@@ -8,11 +8,21 @@ interface IParams {
     title: ColorType;
     setError(name: string, type: string, message?: string): void;
 }
+
 export const useColorOption = (props: IParams) => {
     const { title, setError } = props;
-    const [backgroundColor, setBackgroundColor] = useState<string>();
-    const [isColorPanelOpen, setIsColorPanelOpen] = useState(false);
     const theme = useContext(UserThemeContext);
+    const initBackgroundColor = () => {
+        if (theme.userTheme.palette?.[title]?.[500]) {
+            return theme.userTheme.palette?.[title][500];
+        }
+        if (theme.userTheme.palette?.[title]?.main) {
+            return theme.userTheme.palette?.[title].main;
+        }
+        return undefined;
+    };
+    const [backgroundColor, setBackgroundColor] = useState<string | undefined>(initBackgroundColor());
+    const [isColorPanelOpen, setIsColorPanelOpen] = useState(false);
 
     const updateColor = (color: Color) => {
         setBackgroundColor(color[500]);

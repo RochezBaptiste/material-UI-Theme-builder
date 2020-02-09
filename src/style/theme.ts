@@ -14,13 +14,5 @@ export const mainTheme = responsiveFontSizes(createMuiTheme({
         text: {
             secondary: "#87899a"
         }
-    },
-    overrides: {
-        MuiDrawer: {
-            paper: {
-                borderTopRightRadius: 20,
-                borderTopLeftRadius: 20
-            },
-        }
     }
 }));

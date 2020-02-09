@@ -1,12 +1,8 @@
-import { ColorOption } from "./ColorOption";
-import { ColorType } from "../../data/colors";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { Typography } from "@material-ui/core";
+import { TypographyOption } from "./TypographyOption";
+import { Variant } from "@material-ui/core/styles/createTypography";
 import React, { Fragment } from "react";
-
-interface IParams {
-    colorList: ColorType[];
-}
 
 const useStyle = makeStyles({
     root: {
@@ -16,19 +12,22 @@ const useStyle = makeStyles({
     }
 });
 
-export const ColorOptionList = (props: IParams) => {
-    const { colorList } = props;
+interface IParams {
+    fontList: Variant[];
+}
+
+export const TypographyOptionList = (props: IParams) => {
+    const { fontList } = props;
     const classes = useStyle();
 
     return (
         <Fragment>
-            <Typography variant="h4">Palette</Typography>
+            <Typography variant="h4">Typography</Typography>
             <div className={classes.root}>
                 {
-                    colorList.map((label: ColorType) => <ColorOption key={label} title={label}/>)
+                    fontList.map((font) => <TypographyOption key={font} font={font}/>)
                 }
             </div>
         </Fragment>
-
     );
 };

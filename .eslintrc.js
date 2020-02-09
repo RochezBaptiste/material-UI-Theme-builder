@@ -31,7 +31,7 @@ module.exports = {
         "@typescript-eslint/interface-name-prefix": [2, { "prefixWithI": "always" }],
         "arrow-body-style": "off",
         "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
-        "react/jsx-one-expression-per-line": [2, { "allow": "single-child" }],
+        "react/jsx-one-expression-per-line": [0, { "allow": "single-child" }],
         "react/jsx-no-literals": "off",
         "react/jsx-curly-newline": "off",
         "react/jsx-no-bind": "off",
