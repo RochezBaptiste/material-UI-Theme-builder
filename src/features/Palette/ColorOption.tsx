@@ -1,24 +1,16 @@
 import { Close } from "@material-ui/icons";
 import { ColorBlock } from "../../common/ColorBlock/ColorBlock";
-import { ColorType } from "../../data/colors";
+import { IColor } from "../../data/colors";
 import { MUICOLORS } from "../../constant";
 import React from "react";
 import { useColorOption } from "./useColorOption";
 import { useForm } from "react-hook-form";
-import { Button, Drawer, Fab, Grow, Icon, TextField, Typography } from "@material-ui/core";
+import { Button, Drawer, Fab, Grow, TextField, Typography } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 
 const size = 100;
 
 const useStyle = makeStyles((theme: Theme) => ({
-    customColorForm: {
-        "& > *": {
-            margin: theme.spacing(0, 1)
-        },
-        alignItems: "center",
-        display: "flex",
-        margin: "0 auto"
-    },
     drawer: {
         "& .MuiPaper-root": {
             borderTopLeftRadius: 20,
@@ -26,9 +18,13 @@ const useStyle = makeStyles((theme: Theme) => ({
             padding: theme.spacing(4)
         }
     },
-    emptyIcon: {
-        color: theme.palette.common.white,
-        fontSize: "1.7rem"
+    hexColorForm: {
+        "& > *": {
+            margin: theme.spacing(0, 1)
+        },
+        alignItems: "center",
+        display: "flex",
+        margin: "0 auto"
     },
     palette: {
         display: "flex",
@@ -67,39 +63,30 @@ const useStyle = makeStyles((theme: Theme) => ({
 }));
 
 interface IParams {
-    title: ColorType;
+    color: IColor;
 }
 
 export const ColorOption = (props: IParams) => {
-    const { title } = props;
-    const { register, handleSubmit, errors, setError, setValue } = useForm<{customColor: string}>({ mode: "onSubmit" });
+    const { color } = props;
+    const { register, handleSubmit, errors, setError, setValue } = useForm<{hexColor: string}>({ mode: "onSubmit" });
     const { backgroundColor,
         isColorPanelOpen,
         onSubmit,
-        removeColor,
         setIsColorPanelOpen,
-        updateColor } = useColorOption({ setError, title });
-    const isEmpty = !backgroundColor;
+        updateColor } = useColorOption({ color, setError });
     const classes = useStyle({ backgroundColor });
 
     return (
         <div className={classes.root}>
-            <Grow in={!isEmpty} unmountOnExit>
-                <Fab aria-label="reset" className={classes.resetButton} onClick={removeColor}>
+            <Grow in={true} unmountOnExit>
+                <Fab aria-label="reset" className={classes.resetButton} onClick={() => updateColor(color.initialColor)}>
                     <Close fontSize="small"/>
                 </Fab>
             </Grow>
             <div className={classes.square} onClick={() => setIsColorPanelOpen(!isColorPanelOpen)}>
-                <Grow in={isEmpty} unmountOnExit>
-                    <div>
-                        <Icon className={classes.emptyIcon}>
-                            add
-                        </Icon>
-                    </div>
-                </Grow>
             </div>
             <Typography variant="body1" className={classes.title}>
-                {title}
+                {color.label}
             </Typography>
             <Drawer
                 anchor="bottom"
@@ -107,25 +94,25 @@ export const ColorOption = (props: IParams) => {
                 onClose={() => setIsColorPanelOpen(false)}
                 className={classes.drawer}
             >
-                <form onSubmit={handleSubmit(onSubmit)} className={classes.customColorForm}>
+                <form onSubmit={handleSubmit(onSubmit)} className={classes.hexColorForm}>
                     <TextField
-                        id="custom-color"
-                        name="customColor"
-                        label="Custom color"
+                        id="hex-color"
+                        name="hexColor"
+                        label="Hex color"
                         variant="outlined"
                         size="small"
                         autoComplete="off"
                         inputRef={register}
-                        error={!!errors.customColor}
-                        helperText={errors.customColor?.message}
-                        onChange={ (event) => setValue("customColor", event.target.value)}
+                        error={!!errors.hexColor}
+                        helperText={errors.hexColor?.message}
+                        onChange={ (event) => setValue("hexColor", event.target.value)}
                     />
                     <Button type="submit" variant="contained" color="primary">Ok</Button>
                 </form>
                 <div className={classes.palette}>
                     {
-                        MUICOLORS.map((color, index) =>
-                            <ColorBlock color={color} key={index} updateColor={updateColor} />)
+                        MUICOLORS.map((colorOption, index) =>
+                            <ColorBlock colorOption={colorOption} key={index} updateColor={updateColor} />)
                     }
                 </div>
             </Drawer>

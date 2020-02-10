@@ -3,7 +3,6 @@ import { DemoPanel } from "./features/DemoPanel/DemoPanel";
 import { EStep } from "./constant";
 import { mainTheme } from "./style/theme";
 import { Stepper } from "./features/Stepper/Stepper";
-import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme";
 import { UserThemeContext } from "./context/themeContext";
 import { Box, Grid, Typography } from "@material-ui/core";
 import { createMuiTheme, makeStyles, responsiveFontSizes, Theme, ThemeProvider } from "@material-ui/core/styles";
@@ -38,7 +37,7 @@ export const useStyle = makeStyles((theme: Theme) => ({
 const App = () => {
     const classes = useStyle();
     const [activeStep, setActiveStep] = useState<EStep>(EStep.COLOR);
-    const [userTheme, setUserTheme] = useState<ThemeOptions>({});
+    const [userTheme, setUserTheme] = useState<Theme>(responsiveFontSizes(createMuiTheme()));
 
     return (
         <ThemeProvider theme={mainTheme}>

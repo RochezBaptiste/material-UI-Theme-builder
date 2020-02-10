@@ -1,25 +1,33 @@
 import { Variant } from "@material-ui/core/styles/createTypography";
 import { amber, deepOrange, deepPurple, indigo, orange, pink, purple, red, teal } from "@material-ui/core/colors";
 
-export const fonts: Variant[] = [
-    "body1",
-    "body2",
-    "h1",
-    "h2",
-    "h3",
-    "h4",
-    "h5",
-    "h6",
-    "subtitle1",
-    "subtitle2",
-    "overline",
-    "button",
-    "caption"
+export interface IFont {
+    label: Variant;
+    initialWeight: number;
+}
+export interface IFontOption {
+    color: string;
+    weight: number;
+}
+export const fonts: IFont[] = [
+    { initialWeight: 400, label: "body1" },
+    { initialWeight: 400, label: "body2" },
+    { initialWeight: 300, label: "h1" },
+    { initialWeight: 300, label: "h2" },
+    { initialWeight: 400, label: "h3" },
+    { initialWeight: 400, label: "h4" },
+    { initialWeight: 400, label: "h5" },
+    { initialWeight: 500, label: "h6" },
+    { initialWeight: 400, label: "subtitle1" },
+    { initialWeight: 500, label: "subtitle2" },
+    { initialWeight: 500, label: "button" },
+    { initialWeight: 400, label: "caption" },
+    { initialWeight: 400, label: "overline" }
 ];
 
-export const fontWeightColorList = [
+export const fontWeightOptionList: IFontOption[] = [
     {
-        color: teal[700],
+        color: deepPurple[700],
         weight: 100
     },
     {
@@ -27,11 +35,11 @@ export const fontWeightColorList = [
         weight: 200
     },
     {
-        color: orange[700],
+        color: teal[700],
         weight: 300
     },
     {
-        color: deepOrange[700],
+        color: purple[700],
         weight: 400
     },
     {
@@ -47,11 +55,11 @@ export const fontWeightColorList = [
         weight: 700
     },
     {
-        color: purple[700],
+        color: orange[700],
         weight: 800
     },
     {
-        color: deepPurple[700],
+        color: deepOrange[700],
         weight: 900
     }
 ];

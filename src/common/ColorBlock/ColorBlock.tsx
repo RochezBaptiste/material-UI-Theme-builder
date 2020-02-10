@@ -3,8 +3,8 @@ import React from "react";
 import { Color, Theme } from "@material-ui/core";
 
 const useStyle = makeStyles((theme: Theme) => ({
-    root: (props: {color: Color}) => ({
-        backgroundColor: props.color[500],
+    root: (props: {colorOption: Color}) => ({
+        backgroundColor: props.colorOption[500],
         cursor: "pointer",
         height: 40,
         margin: theme.spacing(1) / 2,
@@ -13,15 +13,15 @@ const useStyle = makeStyles((theme: Theme) => ({
 }));
 
 interface IParams {
-    color: Color;
+    colorOption: Color;
     updateColor(color: Color): void;
 }
 
 export const ColorBlock = (props: IParams) => {
-    const { color, updateColor } = props;
-    const classes = useStyle({ color });
+    const { colorOption, updateColor } = props;
+    const classes = useStyle({ colorOption });
 
     return (
-        <div className={classes.root} onClick={() => updateColor(color)}/>
+        <div className={classes.root} onClick={() => updateColor(colorOption)}/>
     );
 };

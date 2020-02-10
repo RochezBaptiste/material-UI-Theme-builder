@@ -1,53 +1,59 @@
-import { fontWeightColorList } from "../../data/font";
+import { TypographyOptions } from "@material-ui/core/styles/createTypography";
 import { UserThemeContext } from "../../context/themeContext";
+import { fontWeightOptionList, IFont, IFontOption } from "../../data/font";
 import React, { useContext, useEffect, useState } from "react";
-import { TypographyOptions, Variant } from "@material-ui/core/styles/createTypography";
 
 interface IParams {
-    font: Variant;
+    font: IFont;
 }
 
 const getBackgroundColor = (weight: React.CSSProperties["fontWeight"]) => {
-    return fontWeightColorList.find((font) => font.weight === weight)?.color;
+    return fontWeightOptionList.find((font: IFontOption) => font.weight === weight)?.color;
 };
 
 export const useTypographyOption = (props: IParams) => {
-    const { font } = props;
+    const { font: { label } } = props;
     const theme = useContext(UserThemeContext);
     const [backgroundColor, setBackgroundColor] = useState();
-    const initFontWeight = () => {
-        if (theme.userTheme.typography?.[font]?.fontWeight) {
-            return theme.userTheme.typography?.[font].fontWeight;
+    const [selectedFontWeight, setSelectedFontWeight] = useState<React.CSSProperties["fontWeight"]>();
+    const [selectedFontSize, setSelectedFontSize] = useState<React.CSSProperties["fontSize"]>();
+    const [isOptionPanelOpen, setIsOptionPanelOpen] = useState(false);
+
+    useEffect(() => {
+        if (theme.userTheme.typography[label].fontWeight) {
+            setSelectedFontWeight(theme.userTheme.typography[label].fontWeight);
         }
-        return undefined;
-    };
-    const [selectedFontWeight, setSelectedFontWeight] = useState<React.CSSProperties["fontWeight"]>(initFontWeight());
-    const [isWeightOptionOpen, setIsWeightOptionOpen] = useState(false);
+        if (theme.userTheme.typography[label].fontSize) {
+            setSelectedFontSize(theme.userTheme.typography[label].fontSize);
+        }
+    }, [label]);
 
     useEffect(() => {
         setBackgroundColor(getBackgroundColor(selectedFontWeight));
     }, [selectedFontWeight]);
 
-    const updateWeight = (fontWeight: React.CSSProperties["fontWeight"]) => {
+    const updateFontWeight = (fontWeight: React.CSSProperties["fontWeight"]) => {
         setSelectedFontWeight(fontWeight);
-        const option: TypographyOptions = { [font]: { fontWeight } };
-        const newTypography = { ...theme.userTheme.typography, ...option };
-        theme.setUserTheme({ ...theme.userTheme, typography: newTypography });
-        setIsWeightOptionOpen(false);
+        const updatedVariant = { ...theme.userTheme.typography[label], fontWeight };
+        const updatedTypography = { ...theme.userTheme.typography, [label]: updatedVariant };
+        theme.setUserTheme({ ...theme.userTheme, typography: updatedTypography });
     };
 
-    const removeWeight = () => {
-        if (theme.userTheme.typography?.[font]) {
-            const { [font]: removedColor, ...newTypography } = theme.userTheme.typography;
-            theme.setUserTheme({ ...theme.userTheme, typography: newTypography });
-            setSelectedFontWeight(undefined);
-        }
+    const updateFontSize = (fontSize: React.CSSProperties["fontSize"]) => {
+        setSelectedFontSize(fontSize);
+        const remFontSize = theme.userTheme.typography.pxToRem(Number(fontSize));
+        console.log(remFontSize)
+        const updatedVariant = { ...theme.userTheme.typography[label], fontSize };
+        const updatedTypography = { ...theme.userTheme.typography, [label]: updatedVariant };
+        theme.setUserTheme({ ...theme.userTheme, typography: updatedTypography });
     };
+
 
     return { backgroundColor,
-        isWeightOptionOpen,
-        removeWeight,
+        isOptionPanelOpen,
         selectedFontWeight,
-        setIsWeightOptionOpen,
-        updateWeight };
+        setIsOptionPanelOpen,
+        updateFontSize,
+        updateFontWeight
+    };
 };
