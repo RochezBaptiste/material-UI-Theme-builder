@@ -1,4 +1,3 @@
-import { TypographyOptions } from "@material-ui/core/styles/createTypography";
 import { UserThemeContext } from "../../context/themeContext";
 import { fontWeightOptionList, IFont, IFontOption } from "../../data/font";
 import React, { useContext, useEffect, useState } from "react";
@@ -24,7 +23,8 @@ export const useTypographyOption = (props: IParams) => {
             setSelectedFontWeight(theme.userTheme.typography[label].fontWeight);
         }
         if (theme.userTheme.typography[label].fontSize) {
-            setSelectedFontSize(theme.userTheme.typography[label].fontSize);
+            // @ts-ignore
+            setSelectedFontSize(parseFloat(theme.userTheme.typography[label].fontSize));
         }
     }, [label]);
 
@@ -41,8 +41,6 @@ export const useTypographyOption = (props: IParams) => {
 
     const updateFontSize = (fontSize: React.CSSProperties["fontSize"]) => {
         setSelectedFontSize(fontSize);
-        const remFontSize = theme.userTheme.typography.pxToRem(Number(fontSize));
-        console.log(remFontSize)
         const updatedVariant = { ...theme.userTheme.typography[label], fontSize };
         const updatedTypography = { ...theme.userTheme.typography, [label]: updatedVariant };
         theme.setUserTheme({ ...theme.userTheme, typography: updatedTypography });
@@ -51,6 +49,7 @@ export const useTypographyOption = (props: IParams) => {
 
     return { backgroundColor,
         isOptionPanelOpen,
+        selectedFontSize,
         selectedFontWeight,
         setIsOptionPanelOpen,
         updateFontSize,
