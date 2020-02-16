@@ -3,6 +3,7 @@ import { EStep } from "../../constant";
 import { Fade } from "@material-ui/core";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import React from "react";
+import { ThemeOutput } from "./ThemeOutput";
 import { TypographyDemo } from "./TypographyDemo";
 
 interface IParams {
@@ -36,6 +37,14 @@ export const DemoPanel = (props: IParams) => {
                 <Fade in={activeStep === EStep.TYPOGRAPHY} timeout={{ enter: 500 }}>
                     <div>
                         <TypographyDemo />
+                    </div>
+                </Fade>
+            }
+            {
+                activeStep === EStep.EXPORT &&
+                <Fade in={activeStep === EStep.EXPORT} timeout={{ enter: 500 }}>
+                    <div style={{ width: "100%" }}>
+                        <ThemeOutput />
                     </div>
                 </Fade>
             }

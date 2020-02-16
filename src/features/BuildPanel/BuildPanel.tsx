@@ -1,7 +1,7 @@
 import { ColorOptionList } from "../Palette/ColorOptionList";
 import { colors } from "../../data/colors";
 import { EStep } from "../../constant";
-import { Fade } from "@material-ui/core";
+import { Fade, Typography } from "@material-ui/core";
 import { fonts } from "../../data/font";
 import { TypographyOptionList } from "../Typography/TypographyOptionList";
 import React, { Fragment } from "react";
@@ -27,6 +27,14 @@ export const BuildPanel = (props: IParams) => {
                 <Fade in={activeStep === EStep.TYPOGRAPHY} timeout={{ enter: 500 }}>
                     <div>
                         <TypographyOptionList fontList={fonts} />
+                    </div>
+                </Fade>
+            }
+            {
+                activeStep === EStep.EXPORT &&
+                <Fade in={activeStep === EStep.EXPORT} timeout={{ enter: 500 }}>
+                    <div>
+                        <Typography>Enjoy your custom theme</Typography>
                     </div>
                 </Fade>
             }
